@@ -7,7 +7,7 @@ def show_pose(image, pose, ignore_joints = None):
     t = transforms.ToPILImage()
     # image -> tensor, pose -> tensor[28]
     image_size = image.shape[1]
-    plt.figure()
+    plt.figure(figsize=(20, 20))
     ax1 = plt.subplot(121, aspect='equal')
     plt.imshow(t(image))
     pose = pose.reshape(14, 2)

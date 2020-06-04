@@ -8,9 +8,9 @@ import torch.utils.data as data
 
 class LSPDataset(data.Dataset):
     
-    def __init__(self, file_path, target_type = 'points'):
-        self.image_size = 256
-        self.hmap_size = 32
+    def __init__(self, file_path, image_size = 128, hmap_size = 32, target_type = 'points'):
+        self.image_size = image_size
+        self.hmap_size = hmap_size
         self.file_path = file_path
         self.target_type = target_type
         self.get_paths()
@@ -34,11 +34,10 @@ class LSPDataset(data.Dataset):
         y_scale = self.image_size/size[1]
         image = self.transform(image)
         
-        xjoints = (self.joints[index][:,:1] * x_scale)/256
-        yjoints = (self.joints[index][:,1:2] * y_scale)/256
+        xjoints = (self.joints[index][:,:1] * x_scale)/self.image_size
+        yjoints = (self.joints[index][:,1:2] * y_scale)/self.image_size
         joints = np.concatenate((xjoints, yjoints), axis=1).reshape(-1)
 
-        # TODO: Add mask data
         mask = torch.tensor([m == 0 for m in self.joints[index][:,2:].reshape(-1)])
         
         if self.target_type == 'points':
@@ -52,13 +51,13 @@ class LSPDataset(data.Dataset):
         
 class LSPExtendedDataset(data.Dataset):
     
-    def __init__(self, file_path, target_type = 'points'):
+    def __init__(self, file_path, image_size = 128, hmap_size = 32, target_type = 'points'):
         self.file_path = file_path
         self.target_type = target_type
         self.get_paths()
         self.joints = io.loadmat(self.file_path + 'joints.mat')['joints'].T
-        self.image_size = 256
-        self.hmap_size = 32
+        self.image_size = image_size
+        self.hmap_size = hmap_size
         self.transform = transforms.Compose([
             transforms.Resize((self.image_size, self.image_size)),
             transforms.ToTensor(),
@@ -78,8 +77,8 @@ class LSPExtendedDataset(data.Dataset):
         y_scale = self.image_size/size[1]
         image = self.transform(image)
         
-        xjoints = (self.joints[index].T[:,:1] * x_scale)/256
-        yjoints = (self.joints[index].T[:,1:2] * y_scale)/256
+        xjoints = (self.joints[index].T[:,:1] * x_scale)/self.image_size
+        yjoints = (self.joints[index].T[:,1:2] * y_scale)/self.image_size
         mask = self.joints[index].T[:,2:]
         mask = torch.from_numpy(mask).float().reshape(-1)
         joints = np.concatenate((xjoints, yjoints), axis=1).reshape(-1)
