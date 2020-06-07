@@ -43,7 +43,7 @@ def show_hmap(image, hmap):
     t = transforms.ToPILImage()
     t2 = transforms.Compose([
         transforms.ToPILImage(),
-        transforms.Resize((256, 256)),
+        transforms.Resize((128, 128)),
         transforms.ToTensor()
     ])
     
