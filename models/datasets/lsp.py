@@ -38,7 +38,7 @@ class LSP(Dataset):
         if self.target_type == 'heatmap':
             points = joints.reshape(14, 2) * self.hmap_size
             hmap = gen_hmap(self.hmap_size, self.hmap_size, points.numpy(), s=1.5)
-            center = gen_hmap(self.hmap_size, self.hmap_size, [[center[0] * self.hmap_size, center[1] * self.hmap_size]], s=1.5)
+            center = gen_hmap(self.hmap_size, self.hmap_size, [[center[0] * self.hmap_size, center[1] * self.hmap_size]], s=3)
             return image, hmap, center, mask
 
         
@@ -74,7 +74,7 @@ class LSPet(Dataset):
         if self.hmap_size > 0:
             points = joints.reshape(14, 2) * self.hmap_size
             hmap = gen_hmap(self.hmap_size, self.hmap_size, points.numpy(), s=1.5)
-            center = gen_hmap(self.hmap_size, self.hmap_size, [[center[0] * self.hmap_size, center[1] * self.hmap_size]], s=1.5)
+            center = gen_hmap(self.image_size[0], self.image_size[0], [[center[0] * self.image_size[0], center[1] * self.image_size[0]]], s=3)
             return image, hmap, center, mask
 
 # load and transform images and return the image and the x, y scaling
