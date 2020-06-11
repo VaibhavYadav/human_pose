@@ -28,14 +28,14 @@ class LSP(Dataset):
         path = self.path + 'images/' + self.paths[index]
         image, x_scale, y_scale = load_image(path, self.transforms, self.image_size)
         
-        joints, center = get_joints(self.joints[index], (x_scale, y_scale), self.image_size)
+        joints, center = get_joints(self.joints[index].T, (x_scale, y_scale), self.image_size)
 
-        mask = torch.tensor([m == 0 for m in self.joints[index][:,2:].reshape(-1)])
+        mask = torch.tensor([m == 0 for m in self.joints[index].T[:,2:].reshape(-1)])
         
-        if self.target_type == 'points':
+        if self.hmap_size == 0:
             return image, joints, center, mask
 
-        if self.target_type == 'heatmap':
+        if self.hmap_size > 0:
             points = joints.reshape(14, 2) * self.hmap_size
             hmap = gen_hmap(self.hmap_size, self.hmap_size, points.numpy(), s=1.5)
             background = torch.sum(hmap, axis=0)
