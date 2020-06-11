@@ -40,7 +40,7 @@ class CPMStage1(nn.Module):
         self.conv4 = nn.Conv2d(128, 32, kernel_size=5, padding=2)
         self.conv5 = nn.Conv2d(32, 512, kernel_size=9, padding=4)
         self.conv6 = nn.Conv2d(512, 512, kernel_size=1)
-        self.conv7 = nn.Conv2d(512, self.k, kernel_size=1)
+        self.conv7 = nn.Conv2d(512, self.k + 1, kernel_size=1)
 
     def forward(self, x):
         x = self.pool1(F.relu(self.conv1(x)))
@@ -79,13 +79,13 @@ class CPMStageT(nn.Module):
         super(CPMStageT, self).__init__()
         self.k = 14
 
-        self.conv_image = nn.Conv2d(self.k, self.k, kernel_size=5, padding=2)
+        self.conv_image = nn.Conv2d(self.k + 1, self.k + 1, kernel_size=5, padding=2)
 
-        self.conv1 = nn.Conv2d(32 + self.k + 1, 128, kernel_size=11, padding=5)
+        self.conv1 = nn.Conv2d(32 + self.k + 2, 128, kernel_size=11, padding=5)
         self.conv2 = nn.Conv2d(128, 128, kernel_size=11, padding=5)
         self.conv3 = nn.Conv2d(128, 128, kernel_size=11, padding=5)
         self.conv4 = nn.Conv2d(128, 128, kernel_size=1, padding=0)
-        self.conv5 = nn.Conv2d(128, self.k, kernel_size=1, padding=0)
+        self.conv5 = nn.Conv2d(128, self.k + 1, kernel_size=1, padding=0)
 
     def forward(self, stage1_maps, stage2image_maps, center_map):
 
