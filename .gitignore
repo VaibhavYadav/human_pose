@@ -4,3 +4,4 @@ dataset/
 test/
 __pycache__/
 *.weights
+runs/
