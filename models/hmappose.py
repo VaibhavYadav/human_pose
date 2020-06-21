@@ -11,7 +11,7 @@ class HmapPose(nn.Module):
         self.conv33 = nn.Conv2d(128, 512, 9, padding = 4)
         self.conv4 = nn.Conv2d(512, 256, 1)
         self.conv5 = nn.Conv2d(256, 256, 1)
-        self.conv6 = nn.Conv2d(256, 14, 1)
+        self.conv6 = nn.Conv2d(256, 15, 1)
     
     def forward(self, x):
         # x -> [-1, 3, 256, 256]

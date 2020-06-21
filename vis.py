@@ -41,26 +41,23 @@ def points_from_hmap(hmaps):
 
 def show_hmap(image, hmap):
     t = transforms.ToPILImage()
-    t2 = transforms.Compose([
-        transforms.ToPILImage(),
-        transforms.Resize((128, 128)),
-        transforms.ToTensor()
-    ])
+    # t2 = transforms.Compose([
+    #     transforms.ToPILImage(),
+    #     transforms.Resize((256, 256)),
+    #     transforms.ToTensor()
+    # ])
     
     plt.figure(figsize=(20, 30))
     plt.subplot(6, 3, 1)
     plt.imshow(t(image))
-    plt.subplot(6, 3, 2)
-    c_hmap = torch.sum(hmap, axis=0)
-    plt.imshow(c_hmap)
     
     for i, h in enumerate(hmap):
-        plt.subplot(6, 3, i + 3)
+        plt.subplot(6, 3, i + 2)
         plt.imshow(h)
     
-    plt.figure(figsize=(20, 30))
-    plt.subplot(6, 3, 1)
-    plt.imshow(t(torch.cat((image, t2(c_hmap)))))
-    for j, h in enumerate(hmap):
-        plt.subplot(6, 3, j + 2)
-        plt.imshow(t(torch.cat((image, t2(h)))))
+    # plt.figure(figsize=(20, 30))
+    # plt.subplot(6, 3, 1)
+    # plt.imshow(t(torch.cat((image, t2(c_hmap)))))
+    # for j, h in enumerate(hmap):
+    #     plt.subplot(6, 3, j + 2)
+    #     plt.imshow(t(torch.cat((image, t2(h)))))
