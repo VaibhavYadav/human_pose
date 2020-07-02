@@ -61,3 +61,13 @@ def show_hmap(image, hmap):
     # for j, h in enumerate(hmap):
     #     plt.subplot(6, 3, j + 2)
     #     plt.imshow(t(torch.cat((image, t2(h)))))
+
+def show_hmap_cpm(image, hmap, joint):
+    t = transforms.ToPILImage()
+
+    plt.figure(figsize=(20, 30))
+    plt.subplot(1, 7, 1)
+    plt.imshow(t(image))
+    for i, prediction in enumerate(hmap):
+        plt.subplot(1, 7, i + 2)
+        plt.imshow(prediction.squeeze()[joint].squeeze().cpu().detach())

@@ -33,6 +33,6 @@ class HmapPose(nn.Module):
         
         x = F.relu(self.conv4(x))
         x = F.relu(self.conv5(x))
-        x = F.relu(self.conv6(x))
+        x = F.tanh(self.conv6(x))
         # x -> [-1, 14, 32, 32]
         return x
